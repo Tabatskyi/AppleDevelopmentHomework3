@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE3C681F2CD24BAD00406413 /* Students.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C681E2CD24BAD00406413 /* Students.swift */; };
+		CE3C68232CD25CD600406413 /* students.json in Resources */ = {isa = PBXBuildFile; fileRef = CE3C68222CD25CD600406413 /* students.json */; };
+		CE3C68292CD2963E00406413 /* CustomTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C68282CD2963E00406413 /* CustomTable.swift */; };
+		CE3C682D2CD2A0BA00406413 /* StudentDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3C682C2CD2A0BA00406413 /* StudentDetails.swift */; };
 		CE839C012CD2200100C0DDED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE839C002CD2200100C0DDED /* AppDelegate.swift */; };
 		CE839C032CD2200100C0DDED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE839C022CD2200100C0DDED /* SceneDelegate.swift */; };
 		CE839C052CD2200100C0DDED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE839C042CD2200100C0DDED /* ViewController.swift */; };
@@ -17,6 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE3C681E2CD24BAD00406413 /* Students.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Students.swift; sourceTree = "<group>"; };
+		CE3C68222CD25CD600406413 /* students.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = students.json; sourceTree = "<group>"; };
+		CE3C68282CD2963E00406413 /* CustomTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTable.swift; sourceTree = "<group>"; };
+		CE3C682C2CD2A0BA00406413 /* StudentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetails.swift; sourceTree = "<group>"; };
 		CE839BFD2CD2200100C0DDED /* Homework3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Homework3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE839C002CD2200100C0DDED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CE839C022CD2200100C0DDED /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,12 +67,16 @@
 		CE839BFF2CD2200100C0DDED /* Homework3 */ = {
 			isa = PBXGroup;
 			children = (
+				CE3C68222CD25CD600406413 /* students.json */,
 				CE839C002CD2200100C0DDED /* AppDelegate.swift */,
 				CE839C022CD2200100C0DDED /* SceneDelegate.swift */,
 				CE839C042CD2200100C0DDED /* ViewController.swift */,
+				CE3C68282CD2963E00406413 /* CustomTable.swift */,
+				CE3C682C2CD2A0BA00406413 /* StudentDetails.swift */,
 				CE839C092CD2200200C0DDED /* Assets.xcassets */,
 				CE839C0B2CD2200200C0DDED /* LaunchScreen.storyboard */,
 				CE839C0E2CD2200300C0DDED /* Info.plist */,
+				CE3C681E2CD24BAD00406413 /* Students.swift */,
 			);
 			path = Homework3;
 			sourceTree = "<group>";
@@ -136,6 +148,7 @@
 				CE839C0D2CD2200200C0DDED /* LaunchScreen.storyboard in Resources */,
 				CE839C212CD23A4C00C0DDED /* swiftlint.yml in Resources */,
 				CE839C0A2CD2200200C0DDED /* Assets.xcassets in Resources */,
+				CE3C68232CD25CD600406413 /* students.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +183,10 @@
 			files = (
 				CE839C052CD2200100C0DDED /* ViewController.swift in Sources */,
 				CE839C012CD2200100C0DDED /* AppDelegate.swift in Sources */,
+				CE3C682D2CD2A0BA00406413 /* StudentDetails.swift in Sources */,
+				CE3C681F2CD24BAD00406413 /* Students.swift in Sources */,
 				CE839C032CD2200100C0DDED /* SceneDelegate.swift in Sources */,
+				CE3C68292CD2963E00406413 /* CustomTable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
