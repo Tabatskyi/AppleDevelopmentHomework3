@@ -1,6 +1,8 @@
 import UIKit
 
 // https://www.ralfebert.com/ios-examples/uikit/uitableviewcontroller/
+// https://developer.apple.com/tutorials/app-dev-training/creating-a-list-view
+// https://stackoverflow.com/questions/34565570/conforming-to-uitableviewdelegate-and-uitableviewdatasource-in-swift
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     private let studentsLabel: UILabel = {
         let label = UILabel()
@@ -12,6 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     private let tableView = UITableView()
     private var students: [Student] = []
+    private let profileImages = ["person1", "person2", "person3", "person4", "person5", "person6"]
 
     override func viewDidLoad() {
         do {
@@ -55,15 +58,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return UITableViewCell()
         }
         let student = students[indexPath.row]
-        cell.configure(with: student)
+        let picture = profileImages[indexPath.row % profileImages.count]
+        cell.configure(with: student, picture)
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedStudent = students[indexPath.row]
+        let selectedProfileImage = profileImages[indexPath.row % profileImages.count]
 
         let detailVC = StudentDetailViewController()
         detailVC.student = selectedStudent
+        detailVC.profileImage = selectedProfileImage
 
         navigationController?.pushViewController(detailVC, animated: true)
     }

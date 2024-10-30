@@ -2,14 +2,15 @@ import UIKit
 
 class StudentDetailViewController: UIViewController {
     var student: Student?
+    var profileImage: String?
 
-    private let profileImageView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        view.layer.cornerRadius = 20
-        view.layer.masksToBounds = true
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.layer.masksToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
 
     private let scholarshipIndicator: UIView = {
@@ -69,17 +70,13 @@ class StudentDetailViewController: UIViewController {
             profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             profileImageView.widthAnchor.constraint(equalToConstant: 200),
-            profileImageView.heightAnchor.constraint(equalToConstant: 200)
-        ])
+            profileImageView.heightAnchor.constraint(equalToConstant: 200),
 
-        NSLayoutConstraint.activate([
             scholarshipIndicator.trailingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: -10),
             scholarshipIndicator.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: -10),
             scholarshipIndicator.widthAnchor.constraint(equalToConstant: 20),
-            scholarshipIndicator.heightAnchor.constraint(equalToConstant: 20)
-        ])
+            scholarshipIndicator.heightAnchor.constraint(equalToConstant: 20),
 
-        NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
@@ -87,10 +84,8 @@ class StudentDetailViewController: UIViewController {
             ageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             addressLabel.topAnchor.constraint(equalTo: ageLabel.bottomAnchor, constant: 10),
-            addressLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
+            addressLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
-        NSLayoutConstraint.activate([
             subjectsStackView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 20),
             subjectsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             subjectsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
@@ -106,6 +101,8 @@ class StudentDetailViewController: UIViewController {
 
     private func displayStudentDetails() {
         guard let student = student else { return }
+
+        profileImageView.image = UIImage(named: profileImage ?? "defaultImage.png")
 
         view.backgroundColor = .white
         nameLabel.text = student.name

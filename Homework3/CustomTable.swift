@@ -1,12 +1,14 @@
 import UIKit
 
+// https://www.waldo.com/blog/how-to-use-uitableviewcell
 class StudentCell: UITableViewCell {
-    let profileImageView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        view.layer.cornerRadius = 20
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.layer.masksToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
 
     let nameLabel: UILabel = {
@@ -61,34 +63,25 @@ class StudentCell: UITableViewCell {
         contentView.addSubview(scholarshipLabel)
         contentView.addSubview(scholarshipIndicator)
 
+        // https://www.hackingwithswift.com/example-code/uikit/how-to-activate-multiple-auto-layout-constraints-using-activate
         NSLayoutConstraint.activate([
             profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             profileImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             profileImageView.widthAnchor.constraint(equalToConstant: 40),
-            profileImageView.heightAnchor.constraint(equalToConstant: 40)
-        ])
+            profileImageView.heightAnchor.constraint(equalToConstant: 40),
 
-        NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10)
-        ])
+            nameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
 
-        NSLayoutConstraint.activate([
             ageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
-            ageLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10)
-        ])
+            ageLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 10),
 
-        NSLayoutConstraint.activate([
             scoreLabel.centerYAnchor.constraint(equalTo: ageLabel.centerYAnchor),
-            scoreLabel.leadingAnchor.constraint(equalTo: ageLabel.trailingAnchor, constant: 20)
-        ])
+            scoreLabel.leadingAnchor.constraint(equalTo: ageLabel.trailingAnchor, constant: 20),
 
-        NSLayoutConstraint.activate([
             scholarshipLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            scholarshipLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 60)
-        ])
+            scholarshipLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 60),
 
-        NSLayoutConstraint.activate([
             scholarshipIndicator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13),
             scholarshipIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -55),
             scholarshipIndicator.widthAnchor.constraint(equalToConstant: 10),
@@ -96,7 +89,9 @@ class StudentCell: UITableViewCell {
         ])
     }
 
-    func configure(with student: Student) {
+    func configure(with student: Student, _ profilePicture: String) {
+        profileImageView.image = UIImage(named: profilePicture)
+
         nameLabel.text = student.name
         ageLabel.text = "Age: \(student.age ?? 0)"
         scoreLabel.text = "Score: \(student.average())"
