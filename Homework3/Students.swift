@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 struct Address: Codable {
     let street: String?
@@ -31,16 +32,20 @@ struct Students: Codable {
 
 class ModelParser {
     let students: [Student]
-    init(path: String) throws {
-        let url = URL(fileURLWithPath: path)
-        do {
-            let data = try Data(contentsOf: url)
-            students = try JSONDecoder().decode(Students.self, from: data).students
-        } catch {
-            throw error
-        }
+
+    enum NotFoundError: Error {
+        case runtimeError(String)
     }
+    // https://stackoverflow.com/questions/33351108/get-data-from-xcasset-catalog
+    init(name: String) throws {
+        guard let asset = NSDataAsset(name: name) else {
+            throw NotFoundError.runtimeError("Not found asset")
+        }
+        let data = asset.data
+        students = try JSONDecoder().decode(Students.self, from: data).students
+    }
+
     func getStudents() -> [Student] {
         return students
+        }
     }
-}

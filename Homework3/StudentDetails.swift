@@ -1,8 +1,12 @@
 import UIKit
 
-class StudentDetailViewController: UIViewController {
+class StudentDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var student: Student?
     var profileImage: String?
+    var allStudents: [Student] = []
+
+    private let subjectsTableView = UITableView()
+    private var subjects: [(subject: String, score: Int)] = []
 
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -11,14 +15,6 @@ class StudentDetailViewController: UIViewController {
         imageView.layer.masksToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
-    }()
-
-    private let scholarshipIndicator: UIView = {
-        let view = UIView()
-        view.backgroundColor = .green
-        view.layer.cornerRadius = 10
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
 
     private let nameLabel: UILabel = {
@@ -35,93 +31,78 @@ class StudentDetailViewController: UIViewController {
         return label
     }()
 
-    private let addressLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    private let subjectsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 5
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .white
         setupUI()
         displayStudentDetails()
     }
 
     private func setupUI() {
         view.addSubview(profileImageView)
-        view.addSubview(scholarshipIndicator)
         view.addSubview(nameLabel)
         view.addSubview(ageLabel)
-        view.addSubview(addressLabel)
-        view.addSubview(subjectsStackView)
+        view.addSubview(subjectsTableView)
 
         NSLayoutConstraint.activate([
             profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            profileImageView.widthAnchor.constraint(equalToConstant: 200),
-            profileImageView.heightAnchor.constraint(equalToConstant: 200),
+            profileImageView.widthAnchor.constraint(equalToConstant: 100),
+            profileImageView.heightAnchor.constraint(equalToConstant: 100),
 
-            scholarshipIndicator.trailingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: -10),
-            scholarshipIndicator.bottomAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: -10),
-            scholarshipIndicator.widthAnchor.constraint(equalToConstant: 20),
-            scholarshipIndicator.heightAnchor.constraint(equalToConstant: 20),
-
-            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 20),
+            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 10),
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
-            ageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
-            ageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
-            addressLabel.topAnchor.constraint(equalTo: ageLabel.bottomAnchor, constant: 10),
-            addressLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
-            subjectsStackView.topAnchor.constraint(equalTo: addressLabel.bottomAnchor, constant: 20),
-            subjectsStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            subjectsStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            ageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
+            ageLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-    }
 
-    private func addressToString(_ inAddress: Address?) -> String {
-        guard let address = inAddress else {
-            return "No address"
-        }
-        return "\(address.street ?? "N/A") \(address.city ?? "N/A") \(address.postalCode ?? "N/A")"
+        subjectsTableView.translatesAutoresizingMaskIntoConstraints = false
+        subjectsTableView.delegate = self
+        subjectsTableView.dataSource = self
+        subjectsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "SubjectCell")
+
+        NSLayoutConstraint.activate([
+            subjectsTableView.topAnchor.constraint(equalTo: ageLabel.bottomAnchor, constant: 20),
+            subjectsTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            subjectsTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            subjectsTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 
     private func displayStudentDetails() {
         guard let student = student else { return }
 
-        profileImageView.image = UIImage(named: profileImage ?? "defaultImage.png")
-
-        view.backgroundColor = .white
+        profileImageView.image = UIImage(named: profileImage ?? "defaultProfile")
         nameLabel.text = student.name
         ageLabel.text = "Age: \(student.age ?? 0)"
-        addressLabel.text = "Address: \(addressToString(student.address))"
 
         if let scores = student.scores {
-            for (subject, score) in scores {
-                let subjectLabel = UILabel()
-                subjectLabel.text = "\(subject): \(score ?? 0)"
-                subjectLabel.backgroundColor = .lightGray
-                subjectLabel.textAlignment = .center
-                subjectLabel.font = UIFont.systemFont(ofSize: 16)
-                subjectLabel.layer.cornerRadius = 5
-                subjectLabel.layer.masksToBounds = true
-                subjectLabel.translatesAutoresizingMaskIntoConstraints = false
-                subjectLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-                subjectsStackView.addArrangedSubview(subjectLabel)
-            }
+            subjects = scores.map { ($0.key, $0.value ?? 0) }
         }
+
+        subjectsTableView.reloadData()
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return subjects.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SubjectCell", for: indexPath)
+        let subject = subjects[indexPath.row]
+        cell.textLabel?.text = "\(subject.subject): \(subject.score)"
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 16)
+        cell.backgroundColor = .lightGray
+        cell.textLabel?.textAlignment = .center
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedSubject = subjects[indexPath.row].subject
+        let filteredStudents = allStudents.filter { $0.scores?.keys.contains(selectedSubject) == true }
+
+        let subjectStudentsVC = StudentListViewController(title: selectedSubject, students: filteredStudents)
+        navigationController?.pushViewController(subjectStudentsVC, animated: true)
     }
 }

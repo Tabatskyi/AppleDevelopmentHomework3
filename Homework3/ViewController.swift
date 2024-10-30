@@ -3,10 +3,9 @@ import UIKit
 // https://www.ralfebert.com/ios-examples/uikit/uitableviewcontroller/
 // https://developer.apple.com/tutorials/app-dev-training/creating-a-list-view
 // https://stackoverflow.com/questions/34565570/conforming-to-uitableviewdelegate-and-uitableviewdatasource-in-swift
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class StudentListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     private let studentsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Students"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 24)
         return label
@@ -16,12 +15,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var students: [Student] = []
     private let profileImages = ["person1", "person2", "person3", "person4", "person5", "person6"]
 
-    override func viewDidLoad() {
-        do {
-            let model = try ModelParser(path: "/Users/kerbi/Projects/Homework3/Homework3/students.json")
-            students = model.getStudents()
-        } catch { print(error); }
+    init(title: String, students: [Student]) {
+        super.init(nibName: nil, bundle: nil)
+        self.students = students
+        studentsLabel.text = title
+    }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
@@ -45,7 +49,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(StudentCell.self, forCellReuseIdentifier: "StudentCell")
-
         tableView.rowHeight = 80
     }
 
@@ -70,6 +73,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let detailVC = StudentDetailViewController()
         detailVC.student = selectedStudent
         detailVC.profileImage = selectedProfileImage
+        detailVC.allStudents = students
 
         navigationController?.pushViewController(detailVC, animated: true)
     }
